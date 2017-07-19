@@ -1,25 +1,25 @@
 package main
 
 import (
+	"github.com/aromano272/todo_golang_tdd/controllers"
 	"github.com/gorilla/mux"
+	"gopkg.in/mgo.v2"
 	"log"
 	"net/http"
-	"github.com/aromano272/todo_golang_tdd/controllers"
-	"gopkg.in/mgo.v2"
+	"github.com/aromano272/todo_golang_tdd/data"
 )
 
-
-
 func main() {
-	router := mux.NewRouter()
+	router := mux.NewRouter().StrictSlash(true)
 
-	tc := controllers.NewTodoController(getSession())
+	todoDAO := data.NewTodoDAO(getSession())
+	tc := controllers.NewTodoController(todoDAO)
 
-	router.HandleFunc("/get_todos", tc.GetTodos).Methods("GET")
-	router.HandleFunc("/get_todo", tc.GetTodo).Methods("GET")
-	router.HandleFunc("/create_todo", tc.CreateTodo).Methods("POST")
-	router.HandleFunc("/update_todo", tc.UpdateTodo).Methods("PUT")
-	router.HandleFunc("/delete_todo", tc.DeleteTodo).Methods("DELETE")
+	router.HandleFunc("/todos", tc.GetTodos).Methods("GET")
+	router.HandleFunc("/todos/{id}", tc.GetTodo).Methods("GET")
+	router.HandleFunc("/todos", tc.CreateTodo).Methods("POST")
+	router.HandleFunc("/todos", tc.UpdateTodo).Methods("PUT")
+	router.HandleFunc("/todos", tc.DeleteTodo).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 

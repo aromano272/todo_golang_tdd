@@ -7,11 +7,9 @@ import (
 )
 
 type Todo struct {
-
-	Id bson.ObjectId `json:"id" bson:"_id"`
-	Title string `json:"title" bson:"title"`
-	Desc  string `json:"desc" bson:"desc"`
-
+	Id    bson.ObjectId `json:"id" bson:"_id"`
+	Title string        `json:"title" bson:"title"`
+	Desc  string        `json:"desc" bson:"desc"`
 }
 
 func (todo *Todo) MarshalBinary() (data []byte, err error) {
@@ -29,4 +27,8 @@ func (todo *Todo) Set(model Model) error {
 	}
 	*todo = *t
 	return nil
+}
+
+func (todo *Todo) GetKey() string {
+	return todo.Id.String()
 }

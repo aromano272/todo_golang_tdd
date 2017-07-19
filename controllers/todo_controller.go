@@ -1,25 +1,31 @@
 package controllers
 
 import (
-	"gopkg.in/mgo.v2"
-	"net/http"
-	"gopkg.in/mgo.v2/bson"
-	"github.com/gorilla/mux"
-	"github.com/aromano272/todo_golang_tdd/models"
-	"log"
 	"encoding/json"
+	"github.com/aromano272/todo_golang_tdd/data"
+	"github.com/aromano272/todo_golang_tdd/models"
+	"github.com/gorilla/mux"
+	"net/http"
+	"fmt"
 )
 
 type TodoController struct {
-	session *mgo.Session
+	source data.Source
 }
 
-func NewTodoController(session *mgo.Session) *TodoController {
-	return &TodoController{session}
+func NewTodoController(source data.Source) *TodoController {
+	return &TodoController{source}
 }
 
 func (tc TodoController) GetTodos(res http.ResponseWriter, req *http.Request) {
+	todos, err := tc.source.ReadAll()
 
+	if err != nil {
+		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
+	}
+
+	applyDefaults(res)
+	json.NewEncoder(res).Encode(todos)
 }
 
 func (tc TodoController) GetTodo(res http.ResponseWriter, req *http.Request) {
@@ -30,30 +36,35 @@ func (tc TodoController) GetTodo(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if !bson.IsObjectIdHex(id) {
-		ApiError{"id field is invalid"}.Serve(res, http.StatusBadRequest)
-		return
-	}
+	key := models.Id{Key: id}
 
-	oid := bson.ObjectIdHex(id)
-
-	todo := models.Todo{}
-
-	if err := Coll(tc).FindId(oid).One(&todo); err != nil {
-		ApiError{"todo with this id was not found"}.Serve(res, http.StatusNotFound)
-		return
-	}
-
-	jsontodo, err := todo.MarshalBinary()
+	model, err := tc.source.Read(key)
 	if err != nil {
-		log.Fatalln(err)
+		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
+		return
 	}
 
-	json.NewEncoder(res).Encode(jsontodo)
+	applyDefaults(res)
+	json.NewEncoder(res).Encode(model)
 }
 
 func (tc TodoController) CreateTodo(res http.ResponseWriter, req *http.Request) {
+	todo := &models.Todo{}
 
+	err := json.NewDecoder(req.Body).Decode(todo)
+	if err != nil {
+		ApiError{"Error reading request"}.Serve(res, http.StatusBadRequest)
+		fmt.Println(err)
+	}
+
+	newtodo, err := tc.source.Create(todo)
+
+	if err != nil {
+		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
+	}
+
+	applyDefaults(res)
+	json.NewEncoder(res).Encode(newtodo)
 }
 
 func (tc TodoController) UpdateTodo(res http.ResponseWriter, req *http.Request) {
@@ -64,7 +75,6 @@ func (tc TodoController) DeleteTodo(res http.ResponseWriter, req *http.Request) 
 
 }
 
-func Coll(tc TodoController) *mgo.Collection {
-	return tc.session.DB("cooldb").C("todos")
+func applyDefaults(res http.ResponseWriter) {
+	res.Header().Set("Content-Type", "application/json")
 }
-

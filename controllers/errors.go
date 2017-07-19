@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/json"
 )
 
 func jsonErr(err error, descr string) string {
@@ -19,14 +19,14 @@ func jsonKVP(key, val string) string {
 }
 
 type ApiError struct {
-	error string
+	Error string `json:"error"`
 }
 
-
-func (error *ApiError) Serve(w http.ResponseWriter, code int) {
+func (error ApiError) Serve(w http.ResponseWriter, code int) ApiError {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.WriteHeader(code)
-	fmt.Fprintln(w, error)
 	json.NewEncoder(w).Encode(error)
+
+	return error
 }
