@@ -22,6 +22,7 @@ func (tc TodoController) GetTodos(res http.ResponseWriter, req *http.Request) {
 
 	if err != nil {
 		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
+		return
 	}
 
 	applyDefaults(res)
@@ -36,7 +37,7 @@ func (tc TodoController) GetTodo(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	key := models.Id{Key: id}
+	key := models.NewKey(id)
 
 	model, err := tc.source.Read(key)
 	if err != nil {
@@ -55,12 +56,14 @@ func (tc TodoController) CreateTodo(res http.ResponseWriter, req *http.Request) 
 	if err != nil {
 		ApiError{"Error reading request"}.Serve(res, http.StatusBadRequest)
 		fmt.Println(err)
+		return
 	}
 
 	newtodo, err := tc.source.Create(todo)
 
 	if err != nil {
 		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
+		return
 	}
 
 	applyDefaults(res)
@@ -68,7 +71,20 @@ func (tc TodoController) CreateTodo(res http.ResponseWriter, req *http.Request) 
 }
 
 func (tc TodoController) UpdateTodo(res http.ResponseWriter, req *http.Request) {
+	todo := &models.Todo{}
 
+	if err := json.NewDecoder(req.Body).Decode(todo); err != nil {
+		ApiError{"Error reading request"}.Serve(res, http.StatusBadRequest).Log(err)
+		return
+	}
+
+
+	if err := tc.source.Update(todo); err != nil {
+		ApiError{err.Error()}.Serve(res, http.StatusBadRequest).Log(err)
+		return
+	}
+
+	res.WriteHeader(http.StatusOK)
 }
 
 func (tc TodoController) DeleteTodo(res http.ResponseWriter, req *http.Request) {

@@ -30,3 +30,7 @@ func (error ApiError) Serve(w http.ResponseWriter, code int) ApiError {
 
 	return error
 }
+
+func (error ApiError) Log(err error) {
+	fmt.Println(err)
+}

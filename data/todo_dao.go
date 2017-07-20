@@ -65,17 +65,33 @@ func (dao *TodoDAO) Create(model models.Model) (models.Model, error) {
 }
 
 func (dao *TodoDAO) Update(model models.Model) error {
+	todo := model.(*models.Todo)
+
+	if todo.Title == "" {
+		return errors.New("The title field is mandatory")
+	}
+
+	if !bson.IsObjectIdHex(model.GetKey()) {
+		return errors.New("id field is invalid")
+	}
+
 	change := mgo.Change{
-		Update:    bson.M{"$inc": bson.M{"n": 1}},
+		Update:    bson.M{"$set": model},
 		ReturnNew: false,
 	}
 
-	_, err := coll(dao).Find(bson.M{"_id": model.GetKey()}).Apply(change, nil)
+	oid := bson.ObjectIdHex(model.GetKey())
+
+	_, err := coll(dao).Find(bson.M{"_id": oid}).Apply(change, nil)
 
 	return err
 }
 
 func (dao *TodoDAO) Delete(model models.Model) error {
+	if !bson.IsObjectIdHex(model.GetKey()) {
+
+	}
+
 	return coll(dao).Remove(bson.M{"_id": model.GetKey()})
 }
 

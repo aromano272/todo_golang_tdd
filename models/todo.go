@@ -30,5 +30,5 @@ func (todo *Todo) Set(model Model) error {
 }
 
 func (todo *Todo) GetKey() string {
-	return todo.Id.String()
+	return todo.Id.Hex()
 }
