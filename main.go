@@ -25,6 +25,19 @@ func main() {
 
 }
 
+type wrapper struct {
+	handler http.Handler
+}
+
+func (wrpr *wrapper) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json")
+
+	// ↑↑↑ before each request ↑↑↑
+	wrpr.handler.ServeHTTP(res, req)
+	// ↓↓↓ after each request  ↓↓↓
+
+}
+
 func getSession() *mgo.Session {
 	s, err := mgo.Dial("mongodb://localhost")
 

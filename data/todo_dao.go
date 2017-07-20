@@ -7,6 +7,20 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+type TodoSource interface {
+
+	Read(models.Key) (*models.Todo, error)
+
+	ReadAll() ([]*models.Todo, error)
+
+	Create(*models.Todo) (*models.Todo, error)
+
+	Update(*models.Todo) error
+
+	Delete(*models.Todo) error
+
+}
+
 type TodoDAO struct {
 	session *mgo.Session
 }
@@ -15,7 +29,7 @@ func NewTodoDAO(session *mgo.Session) *TodoDAO {
 	return &TodoDAO{session}
 }
 
-func (dao *TodoDAO) Read(key models.Key) (models.Model, error) {
+func (dao *TodoDAO) Read(key models.Key) (*models.Todo, error) {
 	id := key.GetKey()
 
 	if !bson.IsObjectIdHex(id) {
@@ -33,23 +47,17 @@ func (dao *TodoDAO) Read(key models.Key) (models.Model, error) {
 	return todo, nil
 }
 
-func (dao *TodoDAO) ReadAll() ([]models.Model, error) {
-	var todos []models.Todo
+func (dao *TodoDAO) ReadAll() ([]*models.Todo, error) {
+	var todos []*models.Todo
 
 	if err := coll(dao).Find(nil).All(&todos); err != nil {
 		errors.New("TODO: to be implemented") // TODO: implement
 	}
 
-	mdls := make([]models.Model, len(todos))
-	for i := range todos {
-		mdls[i] = &todos[i]
-	}
-
-	return mdls, nil
+	return todos, nil
 }
 
-func (dao *TodoDAO) Create(model models.Model) (models.Model, error) {
-	todo := model.(*models.Todo)
+func (dao *TodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
 
 	if todo.Title == "" {
 		return nil, errors.New("The title field is mandatory")
@@ -64,35 +72,38 @@ func (dao *TodoDAO) Create(model models.Model) (models.Model, error) {
 	return todo, nil
 }
 
-func (dao *TodoDAO) Update(model models.Model) error {
-	todo := model.(*models.Todo)
+func (dao *TodoDAO) Update(todo *models.Todo) error {
 
 	if todo.Title == "" {
 		return errors.New("The title field is mandatory")
 	}
 
-	if !bson.IsObjectIdHex(model.GetKey()) {
+	if !bson.IsObjectIdHex(todo.GetKey()) {
 		return errors.New("id field is invalid")
 	}
 
 	change := mgo.Change{
-		Update:    bson.M{"$set": model},
+		Update:    bson.M{"$set": todo},
 		ReturnNew: false,
 	}
 
-	oid := bson.ObjectIdHex(model.GetKey())
+	oid := bson.ObjectIdHex(todo.GetKey())
 
 	_, err := coll(dao).Find(bson.M{"_id": oid}).Apply(change, nil)
 
 	return err
 }
 
-func (dao *TodoDAO) Delete(model models.Model) error {
-	if !bson.IsObjectIdHex(model.GetKey()) {
+func (dao *TodoDAO) Delete(todo *models.Todo) error {
+	id := todo.GetKey()
 
+	if !bson.IsObjectIdHex(id) {
+		return errors.New("id field is invalid")
 	}
 
-	return coll(dao).Remove(bson.M{"_id": model.GetKey()})
+	oid := bson.ObjectIdHex(id)
+
+	return coll(dao).Remove(bson.M{"_id": oid})
 }
 
 func coll(dao *TodoDAO) *mgo.Collection {
