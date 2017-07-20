@@ -8,7 +8,6 @@ import (
 )
 
 type TodoSource interface {
-
 	Read(models.Key) (*models.Todo, error)
 
 	ReadAll() ([]*models.Todo, error)
@@ -17,8 +16,7 @@ type TodoSource interface {
 
 	Update(*models.Todo) error
 
-	Delete(*models.Todo) error
-
+	Delete(models.Key) error
 }
 
 type TodoDAO struct {
@@ -58,7 +56,6 @@ func (dao *TodoDAO) ReadAll() ([]*models.Todo, error) {
 }
 
 func (dao *TodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
-
 	if todo.Title == "" {
 		return nil, errors.New("The title field is mandatory")
 	}
@@ -73,7 +70,6 @@ func (dao *TodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
 }
 
 func (dao *TodoDAO) Update(todo *models.Todo) error {
-
 	if todo.Title == "" {
 		return errors.New("The title field is mandatory")
 	}
@@ -94,8 +90,8 @@ func (dao *TodoDAO) Update(todo *models.Todo) error {
 	return err
 }
 
-func (dao *TodoDAO) Delete(todo *models.Todo) error {
-	id := todo.GetKey()
+func (dao *TodoDAO) Delete(key models.Key) error {
+	id := key.GetKey()
 
 	if !bson.IsObjectIdHex(id) {
 		return errors.New("id field is invalid")

@@ -40,12 +40,7 @@ func (dao *GenericDAO) ReadAll() ([]models.Model, error) {
 		errors.New("TODO: to be implemented") // TODO: implement
 	}
 
-	mdls := make([]models.Model, len(todos))
-	for i := range todos {
-		mdls[i] = &todos[i]
-	}
-
-	return mdls, nil
+	return todos, nil
 }
 
 func (dao *GenericDAO) Create(model models.Model) (models.Model, error) {

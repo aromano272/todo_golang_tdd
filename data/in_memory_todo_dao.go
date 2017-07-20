@@ -3,7 +3,7 @@ package data
 import (
 	"errors"
 	"github.com/aromano272/todo_golang_tdd/models"
-	"time"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type InMemoryTodoDAO struct {
@@ -36,7 +36,7 @@ func (dao *InMemoryTodoDAO) ReadAll() ([]*models.Todo, error) {
 }
 
 func (dao *InMemoryTodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
-	id := string(time.Now().UnixNano())
+	id := bson.NewObjectId().Hex()
 	todo.SetKey(id)
 	dao.storage[id] = todo
 
@@ -53,9 +53,9 @@ func (dao *InMemoryTodoDAO) Update(todo *models.Todo) error {
 	return nil
 }
 
-func (dao *InMemoryTodoDAO) Delete(todo *models.Todo) error {
-	if _, ok := dao.storage[todo.GetKey()]; ok {
-		delete(dao.storage, todo.GetKey())
+func (dao *InMemoryTodoDAO) Delete(key models.Key) error {
+	if _, ok := dao.storage[key.GetKey()]; ok {
+		delete(dao.storage, key.GetKey())
 	} else {
 		return errors.New("Not found")
 	}
