@@ -40,7 +40,7 @@ func (dao *TodoDAO) Read(key models.Key) (*models.Todo, error) {
 
 	todo := &models.Todo{}
 
-	if err := coll(dao).FindId(oid).One(todo); err != nil {
+	if err := dao.coll().FindId(oid).One(todo); err != nil {
 		return nil, errors.New("todo with this id was not found")
 	}
 
@@ -50,7 +50,7 @@ func (dao *TodoDAO) Read(key models.Key) (*models.Todo, error) {
 func (dao *TodoDAO) ReadAll() ([]*models.Todo, error) {
 	var todos []*models.Todo
 
-	if err := coll(dao).Find(nil).All(&todos); err != nil {
+	if err := dao.coll().Find(nil).All(&todos); err != nil {
 		errors.New("TODO: to be implemented") // TODO: implement
 	}
 
@@ -65,7 +65,7 @@ func (dao *TodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
 
 	todo.Id = bson.NewObjectId()
 
-	if err := coll(dao).Insert(todo); err != nil {
+	if err := dao.coll().Insert(todo); err != nil {
 		return nil, err
 	}
 
@@ -89,7 +89,7 @@ func (dao *TodoDAO) Update(todo *models.Todo) error {
 
 	oid := bson.ObjectIdHex(todo.GetKey())
 
-	_, err := coll(dao).Find(bson.M{"_id": oid}).Apply(change, nil)
+	_, err := dao.coll().Find(bson.M{"_id": oid}).Apply(change, nil)
 
 	return err
 }
@@ -103,9 +103,9 @@ func (dao *TodoDAO) Delete(todo *models.Todo) error {
 
 	oid := bson.ObjectIdHex(id)
 
-	return coll(dao).Remove(bson.M{"_id": oid})
+	return dao.coll().Remove(bson.M{"_id": oid})
 }
 
-func coll(dao *TodoDAO) *mgo.Collection {
+func (dao *TodoDAO) coll() *mgo.Collection {
 	return dao.session.DB("cooldb").C("todos")
 }

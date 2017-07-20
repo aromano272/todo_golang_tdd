@@ -15,8 +15,8 @@ func main() {
 	todoDAO := data.NewTodoDAO(getSession())
 	tc := controllers.NewTodoController(todoDAO)
 
-	router.HandleFunc("/todos", tc.GetTodos).Methods("GET")
-	router.HandleFunc("/todos/{id}", tc.GetTodo).Methods("GET")
+	router.HandleFunc("/todos", tc.ReadAllTodos).Methods("GET")
+	router.HandleFunc("/todos/{id}", tc.ReadTodo).Methods("GET")
 	router.HandleFunc("/todos", tc.CreateTodo).Methods("POST")
 	router.HandleFunc("/todos", tc.UpdateTodo).Methods("PUT")
 	router.HandleFunc("/todos", tc.DeleteTodo).Methods("DELETE")

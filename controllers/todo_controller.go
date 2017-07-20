@@ -1,12 +1,10 @@
 package controllers
 
 import (
-	"encoding/json"
 	"github.com/aromano272/todo_golang_tdd/data"
 	"github.com/aromano272/todo_golang_tdd/models"
-	"github.com/gorilla/mux"
 	"net/http"
-	"fmt"
+	"github.com/aromano272/todo_golang_tdd/handlers"
 )
 
 type TodoController struct {
@@ -17,85 +15,69 @@ func NewTodoController(source data.TodoSource) *TodoController {
 	return &TodoController{source}
 }
 
-func (tc TodoController) GetTodos(res http.ResponseWriter, req *http.Request) {
+func (tc TodoController) ReadAllTodos(req models.ReadAllTodosRequest) ([]*models.Todo, handlers.ApiError) {
 	todos, err := tc.source.ReadAll()
 
 	if err != nil {
-		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
-		return
+		return nil, handlers.NewApiError(err.Error(), http.StatusBadRequest)
 	}
 
-	json.NewEncoder(res).Encode(todos)
+	return todos, nil
 }
 
-func (tc TodoController) GetTodo(res http.ResponseWriter, req *http.Request) {
-	id, ok := mux.Vars(req)["id"]
+func (tc TodoController) ReadTodo(req models.ReadTodoRequest) (*models.Todo, handlers.ApiError) {
+	id := req.Id
 
-	if !ok {
-		ApiError{"id field is required"}.Serve(res, http.StatusBadRequest)
-		return
+	if id == "" {
+		return nil, handlers.NewApiError("id field is required", http.StatusBadRequest)
 	}
 
 	key := models.NewKey(id)
 
-	model, err := tc.source.Read(key)
+	todo, err := tc.source.Read(key)
 	if err != nil {
-		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
-		return
+		return nil, handlers.NewApiError(err.Error(), http.StatusBadRequest)
 	}
 
-	json.NewEncoder(res).Encode(model)
+	return todo, nil
 }
 
-func (tc TodoController) CreateTodo(res http.ResponseWriter, req *http.Request) {
-	todo := &models.Todo{}
-
-	err := json.NewDecoder(req.Body).Decode(todo)
-	if err != nil {
-		ApiError{"Error reading request"}.Serve(res, http.StatusBadRequest)
-		fmt.Println(err)
-		return
+func (tc TodoController) CreateTodo(req models.CreateTodoRequest) (*models.Todo, handlers.ApiError) {
+	todo := &models.Todo{
+		Title: req.Title,
+		Desc:  req.Desc,
 	}
 
 	newtodo, err := tc.source.Create(todo)
-
 	if err != nil {
-		ApiError{err.Error()}.Serve(res, http.StatusBadRequest)
-		return
+		return nil, handlers.NewApiError(err.Error(), http.StatusBadRequest)
 	}
 
-	json.NewEncoder(res).Encode(newtodo)
+	return newtodo, nil
 }
 
-func (tc TodoController) UpdateTodo(res http.ResponseWriter, req *http.Request) {
-	todo := &models.Todo{}
-
-	if err := json.NewDecoder(req.Body).Decode(todo); err != nil {
-		ApiError{"Error reading request"}.Serve(res, http.StatusBadRequest).Log(err)
-		return
+func (tc TodoController) UpdateTodo(req models.UpdateTodoRequest) handlers.ApiError {
+	todo := &models.Todo{
+		Id:    req.Id,
+		Title: req.Title,
+		Desc:  req.Desc,
 	}
-
 
 	if err := tc.source.Update(todo); err != nil {
-		ApiError{err.Error()}.Serve(res, http.StatusBadRequest).Log(err)
-		return
+		return handlers.NewApiError(err.Error(), http.StatusBadRequest)
 	}
 
-	res.WriteHeader(http.StatusOK)
+	return nil
 }
 
-func (tc TodoController) DeleteTodo(res http.ResponseWriter, req *http.Request) {
-	todo := &models.Todo{}
-
-	if err := json.NewDecoder(req.Body).Decode(todo); err != nil {
-		ApiError{"Error reading request"}.Serve(res, http.StatusBadRequest).Log(err)
-		return
+func (tc TodoController) DeleteTodo(req models.DeleteTodoRequest) handlers.ApiError {
+	todo := &models.Todo{
+		Id: req.Id,
 	}
 
 	if err := tc.source.Delete(todo); err != nil {
-		ApiError{err.Error()}.Serve(res, http.StatusBadRequest).Log(err)
-		return
+		return handlers.NewApiError(err.Error(), http.StatusBadRequest)
 	}
 
-	res.WriteHeader(http.StatusOK)
+	return nil
 }

@@ -7,6 +7,7 @@ type Model interface {
 }
 
 type Key interface {
+	SetKey(key string)
 	GetKey() string
 }
 
@@ -16,6 +17,10 @@ type Id struct {
 
 func (id Id) GetKey() string {
 	return id.Key
+}
+
+func (id Id) SetKey(key string) {
+	id.Key = key
 }
 
 func NewKey(key string) Id {
