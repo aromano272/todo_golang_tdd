@@ -6,6 +6,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"github.com/aromano272/todo_golang_tdd/apierrors"
+	"fmt"
 )
 
 type TodoSource interface {
@@ -15,7 +16,7 @@ type TodoSource interface {
 
 	Create(*models.Todo) (*models.Todo, error)
 
-	Update(*models.Todo) error
+	Update(models.Key, *models.Todo) error
 
 	Delete(models.Key) error
 }
@@ -34,6 +35,8 @@ func (dao *TodoDAO) Read(key models.Key) (*models.Todo, error) {
 	if !bson.IsObjectIdHex(id) {
 		return nil, errors.New(apierrors.InvalidId)
 	}
+
+	fmt.Println(id)
 
 	oid := bson.ObjectIdHex(id)
 
@@ -58,7 +61,7 @@ func (dao *TodoDAO) ReadAll() ([]*models.Todo, error) {
 
 func (dao *TodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
 	if todo.Title == "" {
-		return nil, errors.New("The title field is mandatory")
+		return nil, errors.New(apierrors.TodoTitleFieldMissing)
 	}
 
 	todo.Id = bson.NewObjectId()
@@ -70,21 +73,23 @@ func (dao *TodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
 	return todo, nil
 }
 
-func (dao *TodoDAO) Update(todo *models.Todo) error {
+func (dao *TodoDAO) Update(key models.Key, todo *models.Todo) error {
 	if todo.Title == "" {
-		return errors.New("The title field is mandatory")
+		return errors.New(apierrors.TodoTitleFieldMissing)
 	}
 
-	if !bson.IsObjectIdHex(todo.GetKey()) {
+	if !bson.IsObjectIdHex(key.GetKey()) {
 		return errors.New(apierrors.InvalidId)
 	}
+
+	oid := bson.ObjectIdHex(key.GetKey())
+
+	todo.SetKey(oid.Hex())
 
 	change := mgo.Change{
 		Update:    bson.M{"$set": todo},
 		ReturnNew: false,
 	}
-
-	oid := bson.ObjectIdHex(todo.GetKey())
 
 	_, err := dao.coll().Find(bson.M{"_id": oid}).Apply(change, nil)
 

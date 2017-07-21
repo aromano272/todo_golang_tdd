@@ -5,23 +5,33 @@ import (
 	"github.com/aromano272/todo_golang_tdd/models"
 	"gopkg.in/mgo.v2/bson"
 	"github.com/aromano272/todo_golang_tdd/apierrors"
+	"github.com/aromano272/todo_golang_tdd/utils"
 )
 
 type InMemoryTodoDAO struct {
-	storage map[string]*models.Todo
+	storage []*models.Todo
 }
 
 var inMemoryTodoDAO *InMemoryTodoDAO
 
 func GetInMemoryTodoDAO() *InMemoryTodoDAO {
 	if inMemoryTodoDAO == nil {
-		inMemoryTodoDAO = &InMemoryTodoDAO{make(map[string]*models.Todo)}
+		inMemoryTodoDAO = &InMemoryTodoDAO{}
 	}
 	return inMemoryTodoDAO
 }
 
 func (dao *InMemoryTodoDAO) Read(key models.Key) (*models.Todo, error) {
-	if todo, ok := dao.storage[key.GetKey()]; ok {
+	if !bson.IsObjectIdHex(key.GetKey()) {
+		return nil, errors.New(apierrors.InvalidId)
+	}
+	var todo *models.Todo
+	for _, val := range dao.storage {
+		if val.GetKey() == key.GetKey() {
+			todo = val
+		}
+	}
+	if todo != nil {
 		return todo, nil
 	} else {
 		return nil, errors.New(apierrors.IdNotFound)
@@ -29,24 +39,29 @@ func (dao *InMemoryTodoDAO) Read(key models.Key) (*models.Todo, error) {
 }
 
 func (dao *InMemoryTodoDAO) ReadAll() ([]*models.Todo, error) {
-	var todos []*models.Todo
-	for _, val := range dao.storage {
-		todos = append(todos, val)
-	}
-	return todos, nil
+	return dao.storage, nil
 }
 
 func (dao *InMemoryTodoDAO) Create(todo *models.Todo) (*models.Todo, error) {
 	id := bson.NewObjectId().Hex()
 	todo.SetKey(id)
-	dao.storage[id] = todo
+	dao.storage = append(dao.storage, todo)
 
 	return todo, nil
 }
 
-func (dao *InMemoryTodoDAO) Update(todo *models.Todo) error {
-	if _, ok := dao.storage[todo.GetKey()]; ok {
-		dao.storage[todo.GetKey()] = todo
+func (dao *InMemoryTodoDAO) Update(key models.Key, todo *models.Todo) error {
+	if !bson.IsObjectIdHex(key.GetKey()) {
+		return errors.New(apierrors.InvalidId)
+	}
+	var td *models.Todo
+	for _, val := range dao.storage {
+		if val.GetKey() == key.GetKey() {
+			td = val
+		}
+	}
+	if td != nil {
+		*td = *todo
 	} else {
 		return errors.New(apierrors.IdNotFound)
 	}
@@ -55,11 +70,36 @@ func (dao *InMemoryTodoDAO) Update(todo *models.Todo) error {
 }
 
 func (dao *InMemoryTodoDAO) Delete(key models.Key) error {
-	if _, ok := dao.storage[key.GetKey()]; ok {
-		delete(dao.storage, key.GetKey())
-	} else {
+	if !bson.IsObjectIdHex(key.GetKey()) {
+		return errors.New(apierrors.InvalidId)
+	}
+	found := false
+	for pos, val := range dao.storage {
+		if val.GetKey() == key.GetKey() {
+			dao.storage = utils.RemoveTodoFromSlice(dao.storage, pos)
+			found = true
+		}
+	}
+	if !found {
 		return errors.New(apierrors.IdNotFound)
 	}
 
 	return nil
+}
+
+func (dao *InMemoryTodoDAO) Clear() {
+	dao.storage = nil
+}
+
+func (dao *InMemoryTodoDAO) Add(todos ...*models.Todo) []*models.Todo {
+	for _, val := range todos {
+		val.SetKey(dao.NewKey())
+		dao.storage = append(dao.storage, val)
+	}
+
+	return dao.storage
+}
+
+func (dao *InMemoryTodoDAO) NewKey() string {
+	return bson.NewObjectId().Hex()
 }

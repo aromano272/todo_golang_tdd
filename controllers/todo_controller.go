@@ -72,9 +72,7 @@ func (tc TodoController) UpdateTodo(req models.UpdateTodoRequest) apierrors.ApiE
 		Desc:  req.Desc,
 	}
 
-	todo.SetKey(req.Id)
-
-	if err := tc.source.Update(todo); err != nil {
+	if err := tc.source.Update(models.NewKey(req.Id), todo); err != nil {
 		return apierrors.NewApiError(err.Error(), http.StatusBadRequest)
 	}
 
