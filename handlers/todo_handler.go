@@ -90,11 +90,13 @@ func (handler TodoHandler) UpdateTodo(res http.ResponseWriter, req *http.Request
 
 func (handler TodoHandler) DeleteTodo(res http.ResponseWriter, req *http.Request) {
 	var request models.DeleteTodoRequest
-
-	if err := json.NewDecoder(req.Body).Decode(&request); err != nil {
-		apierrors.NewApiError("Error reading request", http.StatusBadRequest).ServeAndLog(res, err)
+	id, ok := mux.Vars(req)["id"]
+	if !ok {
+		apierrors.NewApiError("Error reading request", http.StatusBadRequest).Serve(res)
 		return
 	}
+
+	request.Id = id
 
 	if apierr := handler.controller.DeleteTodo(request); apierr != nil {
 		apierr.Serve(res)

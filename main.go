@@ -23,7 +23,7 @@ func main() {
 	router.Handle("/todos/{id}", Wrap(th.ReadTodo)).Methods("GET")
 	router.Handle("/todos", Wrap(th.CreateTodo)).Methods("POST")
 	router.Handle("/todos", Wrap(th.UpdateTodo)).Methods("PUT")
-	router.Handle("/todos", Wrap(th.DeleteTodo)).Methods("DELETE")
+	router.Handle("/todos/{id}", Wrap(th.DeleteTodo)).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 

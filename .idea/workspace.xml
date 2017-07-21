@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3418519d-e73c-4364-936c-ea90261cf03b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/todo_controller.go" afterPath="$PROJECT_DIR$/controllers/todo_controller.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/todo_controller_test.go" afterPath="$PROJECT_DIR$/controllers/todo_controller_test.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/in_memory_todo_dao.go" afterPath="$PROJECT_DIR$/data/in_memory_todo_dao.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/todo_dao.go" afterPath="$PROJECT_DIR$/data/todo_dao.go" />
-    </list>
+    <list default="true" id="3418519d-e73c-4364-936c-ea90261cf03b" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -153,6 +147,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="dummy://restClient/response23.json" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -333,6 +330,215 @@
       <recent name="$PROJECT_DIR$/controllers" />
     </key>
   </component>
+  <component name="RestClientSettings">
+    <option name="REQUEST_HISTORY">
+      <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;596fa4150384ac1bf58f2d25&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="DELETE" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;1312039121&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="PUT" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;1312039121&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="PUT" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;1312039121&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="PUT" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;dasda&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos/596fa4150384ac1bf58f2d25" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;596fa4150384ac1bf58f2d25&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="PUT" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos/596fa4150384ac1bf58f2d25" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;596fa4150384ac1bf58f2d25&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="PUT" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveTextToSend" value="true" />
+          <option name="textToSend" value="{&quot;id&quot;:&quot;596fa4150384ac1bf58f2d25&quot;,&quot;title&quot;:&quot;updated title&quot;,&quot;desc&quot;:&quot;updated desc&quot;} " />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos/596fa4150384ac1bf58f2d25" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:8080" />
+          <option name="urlPath" value="/todos" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+      </list>
+    </option>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -345,7 +551,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.All in 'github.com/aromano272/todo_golang_tdd/controllers'">
+  <component name="RunManager" selected="Go Single File.go run main.go">
     <configuration default="false" name="go run main.go" type="GoRunFileConfiguration" factoryName="Go Single File" temporary="true">
       <module name="todo_golang_tdd" />
       <working_directory value="$PROJECT_DIR$" />
@@ -452,11 +658,11 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Go Test.All in 'github.com/aromano272/todo_golang_tdd/controllers'" />
-        <item index="1" class="java.lang.String" itemvalue="Go Test.TestTodoController_UpdateTodo in todo_controller_test.go" />
-        <item index="2" class="java.lang.String" itemvalue="Go Test.TestTodoController_ReadAllTodos in todo_controller_test.go" />
-        <item index="3" class="java.lang.String" itemvalue="Go Test.TestTodoController_ReadTodo in todo_controller_test.go" />
-        <item index="4" class="java.lang.String" itemvalue="Go Single File.go run main.go" />
+        <item index="0" class="java.lang.String" itemvalue="Go Single File.go run main.go" />
+        <item index="1" class="java.lang.String" itemvalue="Go Test.All in 'github.com/aromano272/todo_golang_tdd/controllers'" />
+        <item index="2" class="java.lang.String" itemvalue="Go Test.TestTodoController_UpdateTodo in todo_controller_test.go" />
+        <item index="3" class="java.lang.String" itemvalue="Go Test.TestTodoController_ReadAllTodos in todo_controller_test.go" />
+        <item index="4" class="java.lang.String" itemvalue="Go Test.TestTodoController_ReadTodo in todo_controller_test.go" />
       </list>
     </recent_temporary>
   </component>
@@ -479,8 +685,8 @@
     <history-entry file="All_in_'github_com_aromano272_todo_golang_tdd_controllers' - 2017.07.21 at 19h 58m 25s.xml">
       <configuration name="All in 'github.com/aromano272/todo_golang_tdd/controllers'" configurationId="GoTestRunConfiguration" />
     </history-entry>
-    <history-entry file="TestTodoController_ReadAllTodos_in_todo_controller_test_go - 2017.07.21 at 19h 35m 52s.xml">
-      <configuration name="TestTodoController_ReadAllTodos in todo_controller_test.go" configurationId="GoTestRunConfiguration" />
+    <history-entry file="All_in_'github_com_aromano272_todo_golang_tdd_controllers' - 2017.07.21 at 20h 15m 37s.xml">
+      <configuration name="All in 'github.com/aromano272/todo_golang_tdd/controllers'" configurationId="GoTestRunConfiguration" />
     </history-entry>
     <history-entry file="TestTodoController_ReadAllTodos_in_todo_controller_test_go - 2017.07.21 at 19h 49m 39s.xml">
       <configuration name="TestTodoController_ReadAllTodos in todo_controller_test.go" configurationId="GoTestRunConfiguration" />
@@ -503,11 +709,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32905984" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34615386" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3458418" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32905984" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3286004" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286004" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
