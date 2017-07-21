@@ -5,6 +5,7 @@ import (
 	"github.com/aromano272/todo_golang_tdd/models"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/aromano272/todo_golang_tdd/apierrors"
 )
 
 type TodoSource interface {
@@ -31,7 +32,7 @@ func (dao *TodoDAO) Read(key models.Key) (*models.Todo, error) {
 	id := key.GetKey()
 
 	if !bson.IsObjectIdHex(id) {
-		return nil, errors.New("id field is invalid")
+		return nil, errors.New(apierrors.InvalidId)
 	}
 
 	oid := bson.ObjectIdHex(id)
@@ -39,7 +40,7 @@ func (dao *TodoDAO) Read(key models.Key) (*models.Todo, error) {
 	todo := &models.Todo{}
 
 	if err := dao.coll().FindId(oid).One(todo); err != nil {
-		return nil, errors.New("todo with this id was not found")
+		return nil, errors.New(apierrors.IdNotFound)
 	}
 
 	return todo, nil
@@ -75,7 +76,7 @@ func (dao *TodoDAO) Update(todo *models.Todo) error {
 	}
 
 	if !bson.IsObjectIdHex(todo.GetKey()) {
-		return errors.New("id field is invalid")
+		return errors.New(apierrors.InvalidId)
 	}
 
 	change := mgo.Change{
@@ -94,7 +95,7 @@ func (dao *TodoDAO) Delete(key models.Key) error {
 	id := key.GetKey()
 
 	if !bson.IsObjectIdHex(id) {
-		return errors.New("id field is invalid")
+		return errors.New(apierrors.InvalidId)
 	}
 
 	oid := bson.ObjectIdHex(id)

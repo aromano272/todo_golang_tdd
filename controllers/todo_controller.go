@@ -26,13 +26,11 @@ func (tc TodoController) ReadAllTodos(req models.ReadAllTodosRequest) ([]*models
 }
 
 func (tc TodoController) ReadTodo(req models.ReadTodoRequest) (*models.Todo, apierrors.ApiError) {
-	id := req.Id
-
-	if id == "" {
-		return nil, apierrors.NewApiError("id field is required", http.StatusBadRequest)
+	if req.Id == "" {
+		return nil, apierrors.NewApiError(apierrors.IdFieldMissing, http.StatusBadRequest)
 	}
 
-	key := models.NewKey(id)
+	key := models.NewKey(req.Id)
 
 	todo, err := tc.source.Read(key)
 	if err != nil {
@@ -43,6 +41,10 @@ func (tc TodoController) ReadTodo(req models.ReadTodoRequest) (*models.Todo, api
 }
 
 func (tc TodoController) CreateTodo(req models.CreateTodoRequest) (*models.Todo, apierrors.ApiError) {
+	if req.Title == "" {
+		return nil, apierrors.NewApiError(apierrors.TodoTitleFieldMissing, http.StatusBadRequest)
+	}
+
 	todo := &models.Todo{
 		Title: req.Title,
 		Desc:  req.Desc,
@@ -57,6 +59,14 @@ func (tc TodoController) CreateTodo(req models.CreateTodoRequest) (*models.Todo,
 }
 
 func (tc TodoController) UpdateTodo(req models.UpdateTodoRequest) apierrors.ApiError {
+	if req.Id == "" {
+		return apierrors.NewApiError(apierrors.IdFieldMissing, http.StatusBadRequest)
+	}
+
+	if req.Title == "" {
+		return apierrors.NewApiError(apierrors.TodoTitleFieldMissing, http.StatusBadRequest)
+	}
+
 	todo := &models.Todo{
 		Title: req.Title,
 		Desc:  req.Desc,
@@ -72,6 +82,10 @@ func (tc TodoController) UpdateTodo(req models.UpdateTodoRequest) apierrors.ApiE
 }
 
 func (tc TodoController) DeleteTodo(req models.DeleteTodoRequest) apierrors.ApiError {
+	if req.Id == "" {
+		return apierrors.NewApiError(apierrors.IdFieldMissing, http.StatusBadRequest)
+	}
+
 	if err := tc.source.Delete(models.NewKey(req.Id)); err != nil {
 		return apierrors.NewApiError(err.Error(), http.StatusBadRequest)
 	}

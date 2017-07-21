@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/aromano272/todo_golang_tdd/models"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/aromano272/todo_golang_tdd/apierrors"
 )
 
 type InMemoryTodoDAO struct {
@@ -23,7 +24,7 @@ func (dao *InMemoryTodoDAO) Read(key models.Key) (*models.Todo, error) {
 	if todo, ok := dao.storage[key.GetKey()]; ok {
 		return todo, nil
 	} else {
-		return nil, errors.New("Not found")
+		return nil, errors.New(apierrors.IdNotFound)
 	}
 }
 
@@ -47,7 +48,7 @@ func (dao *InMemoryTodoDAO) Update(todo *models.Todo) error {
 	if _, ok := dao.storage[todo.GetKey()]; ok {
 		dao.storage[todo.GetKey()] = todo
 	} else {
-		return errors.New("Not found")
+		return errors.New(apierrors.IdNotFound)
 	}
 
 	return nil
@@ -57,7 +58,7 @@ func (dao *InMemoryTodoDAO) Delete(key models.Key) error {
 	if _, ok := dao.storage[key.GetKey()]; ok {
 		delete(dao.storage, key.GetKey())
 	} else {
-		return errors.New("Not found")
+		return errors.New(apierrors.IdNotFound)
 	}
 
 	return nil
